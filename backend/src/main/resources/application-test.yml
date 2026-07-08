@@ -1,0 +1,6 @@
+# Test profile. The datasource is provided at runtime by Testcontainers (@ServiceConnection),
+# so no static datasource URL is configured here.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate

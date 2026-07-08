@@ -1,0 +1,11 @@
+package com.standardinsurance.intrack.issue;
+
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+public interface IssueRepository
+        extends JpaRepository<IssueEntity, Long>, JpaSpecificationExecutor<IssueEntity> {
+
+    Optional<IssueEntity> findByIssueKey(String issueKey);
+}

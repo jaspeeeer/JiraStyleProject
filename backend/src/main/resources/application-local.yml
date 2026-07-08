@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/intrack
+    username: intrack
+    password: intrack
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+
+# Local SMTP (Mailhog) for invite / reset emails, wired up in Phase 2.
+# spring.mail.host: localhost
+# spring.mail.port: 1025

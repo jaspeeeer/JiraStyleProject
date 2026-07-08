@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: intrack-postgres
+    environment:
+      POSTGRES_DB: intrack
+      POSTGRES_USER: intrack
+      POSTGRES_PASSWORD: intrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - intrack-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U intrack -d intrack"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Local SMTP catcher for invite / password-reset emails.
+  mailhog:
+    image: mailhog/mailhog
+    container_name: intrack-mailhog
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # web UI
+
+volumes:
+  intrack-pgdata:

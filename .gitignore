@@ -1,0 +1,22 @@
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# --- Backend (Maven / Java) ---
+backend/target/
+!backend/.mvn/wrapper/maven-wrapper.jar
+
+# --- Frontend (Node / Next.js) ---
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/playwright-report/
+frontend/test-results/
+frontend/.env*.local
+
+# --- Env / secrets ---
+.env
+*.local

@@ -1,0 +1,59 @@
+version: "3"
+
+# Unified command surface across both apps. Install Task: https://taskfile.dev
+# (Every task also documents the underlying command so you can run it by hand.)
+
+tasks:
+  up:
+    desc: Start local infra (Postgres + Mailhog)
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: Stop local infra
+    cmds:
+      - docker compose down
+
+  dev:
+    desc: Run backend (:8080) and frontend (:3000)
+    deps: [up]
+    cmds:
+      - task: dev:backend &
+      - task: dev:frontend
+
+  dev:backend:
+    dir: backend
+    cmds:
+      - ./mvnw spring-boot:run
+
+  dev:frontend:
+    dir: frontend
+    cmds:
+      - npm run dev
+
+  test:
+    desc: Run all tests (backend verify + frontend e2e)
+    cmds:
+      - task: test:backend
+      - task: test:frontend
+
+  test:backend:
+    dir: backend
+    cmds:
+      - ./mvnw verify
+
+  test:frontend:
+    dir: frontend
+    cmds:
+      - npm run test:e2e
+
+  lint:
+    desc: Lint both apps
+    cmds:
+      - task: lint:frontend
+
+  lint:frontend:
+    dir: frontend
+    cmds:
+      - npm run lint
+      - npm run typecheck
