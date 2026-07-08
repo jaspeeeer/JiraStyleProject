@@ -20,7 +20,13 @@ public enum ErrorCode {
     BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED),
     EMAIL_TAKEN(HttpStatus.CONFLICT),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND);
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND),
+
+    // Projects, sprints & issues
+    PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND),
+    SPRINT_NOT_FOUND(HttpStatus.NOT_FOUND),
+    SPRINT_ALREADY_ACTIVE(HttpStatus.CONFLICT),
+    SPRINT_NOT_ACTIVE(HttpStatus.CONFLICT);
 
     private final HttpStatus status;
 

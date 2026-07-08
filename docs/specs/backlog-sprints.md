@@ -1,9 +1,14 @@
 # Backlog + Sprints
 
-- **Status:** Draft
+- **Status:** Shipped (Phase 4)
 - **Owner:** TBD
 - **Related specs:** [[board]], [[issue-detail]]
 - **Last updated:** 2026-07-08
+
+> Implemented in Phase 4: backlog endpoint (non-completed sprints + unscheduled), sprint
+> create/start/complete with the single-active-sprint rule and move-unfinished-back-to-backlog
+> on completion, progress + point totals, and add-issue-to-sprint via issue PATCH. Verified live
+> end-to-end (create → start) against the running backend + Postgres.
 
 ## 1. Purpose & scope
 
