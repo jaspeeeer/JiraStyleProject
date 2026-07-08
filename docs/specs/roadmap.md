@@ -1,9 +1,13 @@
 # Roadmap
 
-- **Status:** Draft — deferred (Phase 6, scaffold only)
+- **Status:** Draft — deferred (Phase 6 scaffold shipped)
 - **Owner:** TBD
 - **Related specs:** [[backlog-sprints]], [[timeline]]
 - **Last updated:** 2026-07-08
+
+> Scaffold in place: reachable `/roadmap` page (empty state) wired to the stub
+> `GET /api/v1/projects/{key}/roadmap` (returns `status: SCAFFOLD`). Backend feature package
+> `roadmap` (controller/service/impl/dto) is ready to flesh out. Full view deferred.
 
 ## 1. Purpose & scope
 

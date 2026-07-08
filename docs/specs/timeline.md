@@ -1,9 +1,13 @@
 # Timeline
 
-- **Status:** Draft — deferred (Phase 6, scaffold only)
+- **Status:** Draft — deferred (Phase 6 scaffold shipped)
 - **Owner:** TBD
 - **Related specs:** [[roadmap]], [[backlog-sprints]]
 - **Last updated:** 2026-07-08
+
+> Scaffold in place: reachable `/timeline` page (empty state) wired to the stub
+> `GET /api/v1/projects/{key}/timeline` (returns `status: SCAFFOLD`). Backend feature package
+> `timeline` (controller/service/impl/dto) is ready to flesh out. Gantt view deferred.
 
 ## 1. Purpose & scope
 

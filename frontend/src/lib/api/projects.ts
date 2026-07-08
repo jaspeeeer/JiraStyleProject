@@ -12,3 +12,16 @@ export interface Project {
 export function listProjects(): Promise<Project[]> {
   return apiFetch<Project[]>("/projects");
 }
+
+export interface CreateProjectInput {
+  key: string;
+  name: string;
+  description?: string;
+}
+
+export function createProject(input: CreateProjectInput): Promise<Project> {
+  return apiFetch<Project>("/projects", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}

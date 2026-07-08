@@ -30,6 +30,28 @@ test.describe("projects page", () => {
     await expect(page.getByText("MOB", { exact: true })).toBeVisible();
   });
 
+  test("creates a project via the modal", async ({ page }) => {
+    await page.route("**/api/v1/projects", async (route) => {
+      if (route.request().method() === "POST") {
+        return route.fulfill({
+          status: 201,
+          json: { id: 3, key: "NEW", name: "New Project", description: null, issueCounter: 0 },
+        });
+      }
+      return route.fulfill({ json: [] });
+    });
+
+    await page.goto("/projects");
+    await page.getByRole("button", { name: "New Project" }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByLabel("Key").fill("NEW");
+    await page.getByLabel("Name").fill("New Project");
+    await page.getByRole("button", { name: "Create project" }).click();
+
+    await expect(page.getByRole("cell", { name: "New Project" })).toBeVisible();
+    await expect(page.getByText("NEW", { exact: true })).toBeVisible();
+  });
+
   test("shows an error state when the API fails", async ({ page }) => {
     await page.route("**/api/v1/projects", async (route) => {
       await route.fulfill({

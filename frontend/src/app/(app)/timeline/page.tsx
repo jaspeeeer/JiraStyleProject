@@ -1,10 +1,11 @@
-import { PagePlaceholder } from "@/components/PagePlaceholder";
+import { ScaffoldView } from "@/features/insights/ScaffoldView";
 
 export default function TimelinePage() {
   return (
-    <PagePlaceholder
+    <ScaffoldView
       title="Timeline"
-      description="Gantt-style timeline. Scaffolded in Phase 6."
+      description="Gantt-style timeline with dependencies. Scaffolded in Phase 6."
+      kind="timeline"
     />
   );
 }

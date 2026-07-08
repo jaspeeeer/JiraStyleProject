@@ -1,9 +1,13 @@
 # Reports
 
-- **Status:** Draft — deferred (Phase 6, scaffold only)
+- **Status:** Draft — deferred (Phase 6 scaffold shipped)
 - **Owner:** TBD
 - **Related specs:** [[backlog-sprints]]
 - **Last updated:** 2026-07-08
+
+> Scaffold in place: reachable `/reports` page (empty state) wired to the stub
+> `GET /api/v1/projects/{key}/reports` (returns `status: SCAFFOLD`). Backend feature package
+> `reports` (controller/service/impl/dto) is ready to flesh out. Charts deferred.
 
 ## 1. Purpose & scope
 

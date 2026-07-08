@@ -1,5 +1,8 @@
 package com.standardinsurance.intrack.project;
 
+import com.standardinsurance.intrack.common.error.ApiException;
+import com.standardinsurance.intrack.common.error.ErrorCode;
+import com.standardinsurance.intrack.project.dto.CreateProjectRequestDto;
 import com.standardinsurance.intrack.project.dto.ProjectResponseDto;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -20,5 +23,20 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectResponseDto> listProjects() {
         return projectMapper.toResponseList(projectRepository.findAll());
+    }
+
+    @Override
+    @Transactional
+    public ProjectResponseDto create(CreateProjectRequestDto request) {
+        if (projectRepository.existsByProjectKey(request.key())) {
+            throw new ApiException(ErrorCode.PROJECT_KEY_TAKEN,
+                    "Project key " + request.key() + " is already in use");
+        }
+        ProjectEntity project = new ProjectEntity();
+        project.setProjectKey(request.key());
+        project.setName(request.name());
+        project.setDescription(request.description());
+        projectRepository.save(project);
+        return projectMapper.toResponse(project);
     }
 }

@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     // Projects, sprints & issues
     PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND),
+    PROJECT_KEY_TAKEN(HttpStatus.CONFLICT),
     SPRINT_NOT_FOUND(HttpStatus.NOT_FOUND),
     SPRINT_ALREADY_ACTIVE(HttpStatus.CONFLICT),
     SPRINT_NOT_ACTIVE(HttpStatus.CONFLICT);

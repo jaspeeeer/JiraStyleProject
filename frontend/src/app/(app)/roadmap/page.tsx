@@ -1,10 +1,11 @@
-import { PagePlaceholder } from "@/components/PagePlaceholder";
+import { ScaffoldView } from "@/features/insights/ScaffoldView";
 
 export default function RoadmapPage() {
   return (
-    <PagePlaceholder
+    <ScaffoldView
       title="Roadmap"
-      description="High-level epic roadmap. Scaffolded in Phase 6."
+      description="High-level epic roadmap over time. Scaffolded in Phase 6."
+      kind="roadmap"
     />
   );
 }
