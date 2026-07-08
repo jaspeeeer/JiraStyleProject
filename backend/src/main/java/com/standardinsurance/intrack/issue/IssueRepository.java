@@ -13,4 +13,6 @@ public interface IssueRepository
     List<IssueEntity> findBySprintId(Long sprintId);
 
     List<IssueEntity> findByProjectIdAndSprintIsNull(Long projectId);
+
+    List<IssueEntity> findByProjectIdOrderByIdAsc(Long projectId);
 }

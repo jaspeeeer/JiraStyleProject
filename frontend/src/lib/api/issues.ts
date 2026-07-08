@@ -91,3 +91,115 @@ export function updateIssueStatus(key: string, status: IssueStatus): Promise<Iss
     body: JSON.stringify({ status }),
   });
 }
+
+// --- Issue detail (Phase 5) ---
+
+/** Full issue view (mirrors backend IssueResponseDto). */
+export interface IssueFull {
+  id: number;
+  key: string;
+  projectKey: string;
+  title: string;
+  description: string | null;
+  status: IssueStatus;
+  priority: Priority;
+  type: IssueType;
+  storyPoints: number | null;
+  dueDate: string | null;
+  assigneeId: number | null;
+  assigneeName: string | null;
+  reporterId: number | null;
+  reporterName: string | null;
+  epicId: number | null;
+  epicName: string | null;
+  sprintId: number | null;
+  sprintName: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Subtask {
+  id: number;
+  title: string;
+  done: boolean;
+  assigneeId: number | null;
+  assigneeName: string | null;
+  orderIndex: number;
+}
+
+export interface Comment {
+  id: number;
+  body: string;
+  authorId: number | null;
+  authorName: string | null;
+  createdAt: string;
+}
+
+export interface Activity {
+  id: number;
+  action: string;
+  field: string | null;
+  oldValue: string | null;
+  newValue: string | null;
+  actorName: string | null;
+  createdAt: string;
+}
+
+export interface IssueDetail {
+  issue: IssueFull;
+  subtasksDone: number;
+  subtasksTotal: number;
+  subtasks: Subtask[];
+  comments: Comment[];
+  activity: Activity[];
+}
+
+export interface Neighbors {
+  prev: string | null;
+  next: string | null;
+}
+
+export type IssuePatch = Partial<{
+  title: string;
+  description: string;
+  status: IssueStatus;
+  priority: Priority;
+  type: IssueType;
+  storyPoints: number;
+}>;
+
+export function getIssueDetail(key: string): Promise<IssueDetail> {
+  return apiFetch<IssueDetail>(`/issues/${key}`);
+}
+
+export function getNeighbors(key: string): Promise<Neighbors> {
+  return apiFetch<Neighbors>(`/issues/${key}/neighbors`);
+}
+
+export function updateIssue(key: string, patch: IssuePatch): Promise<IssueFull> {
+  return apiFetch<IssueFull>(`/issues/${key}`, {
+    method: "PATCH",
+    body: JSON.stringify(patch),
+  });
+}
+
+export function createSubtask(key: string, title: string): Promise<Subtask> {
+  return apiFetch<Subtask>(`/issues/${key}/subtasks`, {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
+}
+
+export function updateSubtask(id: number, patch: { done?: boolean; title?: string }): Promise<Subtask> {
+  return apiFetch<Subtask>(`/subtasks/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(patch),
+  });
+}
+
+export function addComment(key: string, body: string): Promise<Comment> {
+  return apiFetch<Comment>(`/issues/${key}/comments`, {
+    method: "POST",
+    body: JSON.stringify({ body }),
+  });
+}

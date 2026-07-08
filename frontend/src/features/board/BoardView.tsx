@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -266,7 +267,9 @@ function Card({ card, onDragStart }: { card: IssueCard; onDragStart: () => void 
       className="cursor-grab rounded-md border border-slate-200 bg-white p-3 shadow-sm"
     >
       <div className="flex items-center justify-between">
-        <Badge tone="accent">{card.key}</Badge>
+        <Link href={`/issues/${card.key}`} className="hover:underline" onMouseDown={(e) => e.stopPropagation()}>
+          <Badge tone="accent">{card.key}</Badge>
+        </Link>
         <Badge tone={PRIORITY_TONE[card.priority]}>{card.priority}</Badge>
       </div>
       <p className="mt-2 text-sm font-medium text-slate-800">{card.title}</p>

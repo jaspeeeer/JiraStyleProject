@@ -1,9 +1,16 @@
 # Issue Detail
 
-- **Status:** Draft
+- **Status:** Shipped (Phase 5)
 - **Owner:** TBD
 - **Related specs:** [[board]], [[backlog-sprints]]
 - **Last updated:** 2026-07-08
+
+> Implemented in Phase 5: detail aggregate (`GET /issues/{key}` → issue + subtasks + comments +
+> activity + progress), subtask CRUD, comments (author = current user), activity feed, prev/next
+> neighbors. UI: editable status/priority, subtasks with progress + toggle, comments, activity,
+> metadata panel, prev/next nav; board card key links here. Verified live end-to-end (add subtask,
+> toggle → 1/1, add comment) against the running backend + Postgres. Description editing and
+> per-subtask assignee selection in the UI are deferred (fields display; backend supports both).
 
 ## 1. Purpose & scope
 

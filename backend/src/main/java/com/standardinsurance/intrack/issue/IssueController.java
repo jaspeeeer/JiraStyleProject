@@ -2,7 +2,9 @@ package com.standardinsurance.intrack.issue;
 
 import com.standardinsurance.intrack.issue.dto.BoardResponseDto;
 import com.standardinsurance.intrack.issue.dto.CreateIssueRequestDto;
+import com.standardinsurance.intrack.issue.dto.IssueDetailResponseDto;
 import com.standardinsurance.intrack.issue.dto.IssueResponseDto;
+import com.standardinsurance.intrack.issue.dto.NeighborsDto;
 import com.standardinsurance.intrack.issue.dto.UpdateIssueRequestDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -33,8 +35,13 @@ public class IssueController {
     }
 
     @GetMapping("/issues/{key}")
-    public IssueResponseDto get(@PathVariable String key) {
-        return issueService.get(key);
+    public IssueDetailResponseDto get(@PathVariable String key) {
+        return issueService.detail(key);
+    }
+
+    @GetMapping("/issues/{key}/neighbors")
+    public NeighborsDto neighbors(@PathVariable String key) {
+        return issueService.neighbors(key);
     }
 
     @PatchMapping("/issues/{key}")

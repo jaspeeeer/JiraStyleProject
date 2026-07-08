@@ -2,6 +2,10 @@ package com.standardinsurance.intrack.issue;
 
 import com.standardinsurance.intrack.activity.ActivityLogEntity;
 import com.standardinsurance.intrack.activity.ActivityLogRepository;
+import com.standardinsurance.intrack.activity.ActivityMapper;
+import com.standardinsurance.intrack.activity.CommentEntity;
+import com.standardinsurance.intrack.activity.CommentRepository;
+import com.standardinsurance.intrack.activity.CommentMapper;
 import com.standardinsurance.intrack.common.error.ApiException;
 import com.standardinsurance.intrack.common.error.ErrorCode;
 import com.standardinsurance.intrack.epic.EpicEntity;
@@ -9,12 +13,17 @@ import com.standardinsurance.intrack.epic.EpicRepository;
 import com.standardinsurance.intrack.issue.dto.BoardColumnDto;
 import com.standardinsurance.intrack.issue.dto.BoardResponseDto;
 import com.standardinsurance.intrack.issue.dto.CreateIssueRequestDto;
+import com.standardinsurance.intrack.issue.dto.IssueDetailResponseDto;
 import com.standardinsurance.intrack.issue.dto.IssueResponseDto;
+import com.standardinsurance.intrack.issue.dto.NeighborsDto;
 import com.standardinsurance.intrack.issue.dto.UpdateIssueRequestDto;
 import com.standardinsurance.intrack.project.ProjectEntity;
 import com.standardinsurance.intrack.project.ProjectRepository;
 import com.standardinsurance.intrack.sprint.SprintEntity;
 import com.standardinsurance.intrack.sprint.SprintRepository;
+import com.standardinsurance.intrack.subtask.SubtaskEntity;
+import com.standardinsurance.intrack.subtask.SubtaskRepository;
+import com.standardinsurance.intrack.subtask.SubtaskMapper;
 import com.standardinsurance.intrack.user.UserEntity;
 import com.standardinsurance.intrack.user.UserRepository;
 import java.util.Arrays;
@@ -37,7 +46,12 @@ public class IssueServiceImpl implements IssueService {
     private final EpicRepository epicRepository;
     private final SprintRepository sprintRepository;
     private final ActivityLogRepository activityLogRepository;
+    private final CommentRepository commentRepository;
+    private final SubtaskRepository subtaskRepository;
     private final IssueMapper issueMapper;
+    private final SubtaskMapper subtaskMapper;
+    private final CommentMapper commentMapper;
+    private final ActivityMapper activityMapper;
 
     public IssueServiceImpl(IssueRepository issueRepository,
                             ProjectRepository projectRepository,
@@ -45,14 +59,24 @@ public class IssueServiceImpl implements IssueService {
                             EpicRepository epicRepository,
                             SprintRepository sprintRepository,
                             ActivityLogRepository activityLogRepository,
-                            IssueMapper issueMapper) {
+                            CommentRepository commentRepository,
+                            SubtaskRepository subtaskRepository,
+                            IssueMapper issueMapper,
+                            SubtaskMapper subtaskMapper,
+                            CommentMapper commentMapper,
+                            ActivityMapper activityMapper) {
         this.issueRepository = issueRepository;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.epicRepository = epicRepository;
         this.sprintRepository = sprintRepository;
         this.activityLogRepository = activityLogRepository;
+        this.commentRepository = commentRepository;
+        this.subtaskRepository = subtaskRepository;
         this.issueMapper = issueMapper;
+        this.subtaskMapper = subtaskMapper;
+        this.commentMapper = commentMapper;
+        this.activityMapper = activityMapper;
     }
 
     @Override
@@ -92,8 +116,36 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     @Transactional(readOnly = true)
-    public IssueResponseDto get(String key) {
-        return issueMapper.toResponse(findIssue(key));
+    public IssueDetailResponseDto detail(String key) {
+        IssueEntity issue = findIssue(key);
+        List<SubtaskEntity> subtasks = subtaskRepository.findByIssueIdOrderByOrderIndexAsc(issue.getId());
+        List<CommentEntity> comments = commentRepository.findByIssueIdOrderByCreatedAtAsc(issue.getId());
+        List<ActivityLogEntity> activity = activityLogRepository.findByIssueIdOrderByCreatedAtDesc(issue.getId());
+        int done = (int) subtasks.stream().filter(SubtaskEntity::isDone).count();
+        return new IssueDetailResponseDto(
+                issueMapper.toResponse(issue),
+                done,
+                subtasks.size(),
+                subtaskMapper.toResponses(subtasks),
+                commentMapper.toResponses(comments),
+                activityMapper.toResponses(activity));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public NeighborsDto neighbors(String key) {
+        IssueEntity issue = findIssue(key);
+        List<IssueEntity> ordered = issueRepository.findByProjectIdOrderByIdAsc(issue.getProject().getId());
+        int index = -1;
+        for (int i = 0; i < ordered.size(); i++) {
+            if (ordered.get(i).getId().equals(issue.getId())) {
+                index = i;
+                break;
+            }
+        }
+        String prev = index > 0 ? ordered.get(index - 1).getIssueKey() : null;
+        String next = index >= 0 && index < ordered.size() - 1 ? ordered.get(index + 1).getIssueKey() : null;
+        return new NeighborsDto(prev, next);
     }
 
     @Override
