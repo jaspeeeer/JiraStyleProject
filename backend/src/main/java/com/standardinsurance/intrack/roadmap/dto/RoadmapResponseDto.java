@@ -1,7 +1,13 @@
 package com.standardinsurance.intrack.roadmap.dto;
 
+import java.util.List;
+
 /**
- * Placeholder roadmap payload. {@code status} is {@code SCAFFOLD} until the feature is built.
+ * Roadmap view: every epic in the project with its timeframe and progress. Epics without dates
+ * are still included — the UI groups them as "unscheduled".
  */
-public record RoadmapResponseDto(String projectKey, String status, String message) {
+public record RoadmapResponseDto(
+        String projectKey,
+        List<RoadmapEpicDto> epics
+) {
 }

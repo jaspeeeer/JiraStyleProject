@@ -5,6 +5,7 @@ import com.standardinsurance.intrack.common.error.ErrorCode;
 import com.standardinsurance.intrack.project.dto.CreateProjectRequestDto;
 import com.standardinsurance.intrack.project.dto.ProjectResponseDto;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectResponseDto> listProjects() {
-        return projectMapper.toResponseList(projectRepository.findAll());
+        // Sorted by id so the list (and the frontend's default project) is deterministic.
+        return projectMapper.toResponseList(projectRepository.findAll(Sort.by("id")));
     }
 
     @Override

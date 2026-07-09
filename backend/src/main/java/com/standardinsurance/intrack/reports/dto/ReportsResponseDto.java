@@ -1,7 +1,20 @@
 package com.standardinsurance.intrack.reports.dto;
 
+import java.util.List;
+
 /**
- * Placeholder reports payload. {@code status} is {@code SCAFFOLD} until the feature is built.
+ * Project analytics: headline totals, issue distributions (every enum bucket present, zeros
+ * included, in enum order), and per-sprint velocity.
  */
-public record ReportsResponseDto(String projectKey, String status, String message) {
+public record ReportsResponseDto(
+        String projectKey,
+        long totalIssues,
+        long doneIssues,
+        long totalPoints,
+        long donePoints,
+        List<CountDto> statusCounts,
+        List<CountDto> priorityCounts,
+        List<CountDto> typeCounts,
+        List<VelocityPointDto> velocity
+) {
 }

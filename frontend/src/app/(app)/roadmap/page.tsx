@@ -1,11 +1,5 @@
-import { ScaffoldView } from "@/features/insights/ScaffoldView";
+import { RoadmapView } from "@/features/roadmap/RoadmapView";
 
 export default function RoadmapPage() {
-  return (
-    <ScaffoldView
-      title="Roadmap"
-      description="High-level epic roadmap over time. Scaffolded in Phase 6."
-      kind="roadmap"
-    />
-  );
+  return <RoadmapView />;
 }
