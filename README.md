@@ -72,14 +72,39 @@ psql -U postgres -h localhost -c "CREATE DATABASE intrack OWNER intrack;"
 
 From `backend/`:
 
+**macOS / Linux / Git Bash:**
+
 ```bash
 cd backend
 ./mvnw spring-boot:run      # or: mvn spring-boot:run  (if Maven is installed globally)
 ```
 
+**Windows PowerShell:**
+
+```powershell
+cd backend
+.\mvnw.cmd spring-boot:run   # note the .cmd extension — plain "./mvnw" does not run in PowerShell
+```
+
 > **Maven wrapper note:** the repo commits `.mvn/wrapper/maven-wrapper.properties` but not the
-> `mvnw` scripts. Generate them once with a system Maven — `mvn -N wrapper:wrapper` — then
-> `./mvnw` works with no global install. If you already have `mvn`, just use `mvn` directly.
+> `mvnw` / `mvnw.cmd` scripts themselves. If they're missing, generate them once with a system
+> Maven install:
+>
+> ```powershell
+> # 1. Install Maven if you don't have it
+> winget install Apache.Maven
+> # (or download from https://maven.apache.org/download.cgi and add its bin/ folder to PATH)
+>
+> # 2. Restart the shell, then verify
+> mvn -v
+>
+> # 3. From backend/, generate the wrapper scripts once
+> mvn -N wrapper:wrapper
+> ```
+>
+> After that, `.\mvnw.cmd` (Windows) or `./mvnw` (bash) work with no global Maven needed for
+> future runs. If you'd rather skip the wrapper entirely, just use `mvn spring-boot:run` directly
+> every time — same effect, no generation step required.
 
 The app runs under the **`local`** profile by default, which:
 
@@ -144,7 +169,7 @@ task down    # stop docker services
 ## 7. Running the tests
 
 ```bash
-# Backend  (from backend/)
+# Backend  (from backend/) — bash/mvnw; on PowerShell use .\mvnw.cmd (see step 3)
 ./mvnw -DskipITs test     # fast unit tests only (no Docker needed)
 ./mvnw verify             # unit + integration tests (needs Docker for Testcontainers)
 
@@ -158,6 +183,12 @@ npm run test:e2e          # Playwright (installs a browser on first run:
 ---
 
 ## 8. Troubleshooting
+
+**`./mvnw : The term './mvnw' is not recognized...` (PowerShell).** PowerShell doesn't run
+extensionless scripts the way bash does, and the wrapper scripts may not exist yet in your
+checkout. Use `.\mvnw.cmd` (not `./mvnw`), and if that file itself is missing, generate it first
+— see the wrapper note under [step 3](#3-run-the-backend-8080). Or just run `mvn spring-boot:run`
+if you have Maven installed globally.
 
 **Backend fails to start with `Unable to establish loopback connection` (Windows + JDK 21).**
 Tomcat's NIO selector creates an internal AF_UNIX socket under `%TEMP%`; some Windows setups

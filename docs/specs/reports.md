@@ -1,13 +1,15 @@
 # Reports
 
-- **Status:** Draft — deferred (Phase 6 scaffold shipped)
+- **Status:** Shipped
 - **Owner:** TBD
 - **Related specs:** [[backlog-sprints]]
-- **Last updated:** 2026-07-08
+- **Last updated:** 2026-07-09
 
-> Scaffold in place: reachable `/reports` page (empty state) wired to the stub
-> `GET /api/v1/projects/{key}/reports` (returns `status: SCAFFOLD`). Backend feature package
-> `reports` (controller/service/impl/dto) is ready to flesh out. Charts deferred.
+> Shipped: `GET /api/v1/projects/{key}/reports` returns headline totals (issues, done, points,
+> done points), issue distributions by status/priority/type (every enum bucket present incl.
+> zeros, in enum order), and per-sprint velocity (completed vs total points). UI: stat tiles,
+> three bar-distribution charts, and a velocity chart (all CSS bars, no chart lib). Verified
+> live. Deferred: burndown-over-time and cumulative-flow (need per-day historical snapshots).
 
 ## 1. Purpose & scope
 

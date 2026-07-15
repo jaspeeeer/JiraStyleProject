@@ -1,13 +1,15 @@
 # Timeline
 
-- **Status:** Draft — deferred (Phase 6 scaffold shipped)
+- **Status:** Shipped
 - **Owner:** TBD
 - **Related specs:** [[roadmap]], [[backlog-sprints]]
-- **Last updated:** 2026-07-08
+- **Last updated:** 2026-07-09
 
-> Scaffold in place: reachable `/timeline` page (empty state) wired to the stub
-> `GET /api/v1/projects/{key}/timeline` (returns `status: SCAFFOLD`). Backend feature package
-> `timeline` (controller/service/impl/dto) is ready to flesh out. Gantt view deferred.
+> Shipped: `GET /api/v1/projects/{key}/timeline` returns the overall date range, dated sprint
+> bands, and one bar per issue (start = created date in UTC; end = due date, clamped to ≥ start,
+> or start again when there's no due date). UI: month-axis Gantt with sprint bands + status-
+> colored issue bars linking to the issue detail; empty state when nothing is dated. Verified
+> live. Deferred: dependency arrows, drag-to-reschedule, zoom.
 
 ## 1. Purpose & scope
 

@@ -1,13 +1,16 @@
 # Roadmap
 
-- **Status:** Draft — deferred (Phase 6 scaffold shipped)
+- **Status:** Shipped
 - **Owner:** TBD
 - **Related specs:** [[backlog-sprints]], [[timeline]]
-- **Last updated:** 2026-07-08
+- **Last updated:** 2026-07-09
 
-> Scaffold in place: reachable `/roadmap` page (empty state) wired to the stub
-> `GET /api/v1/projects/{key}/roadmap` (returns `status: SCAFFOLD`). Backend feature package
-> `roadmap` (controller/service/impl/dto) is ready to flesh out. Full view deferred.
+> Shipped: **Epic CRUD** (`epic` feature — `GET /api/v1/projects/{key}/epics`,
+> `POST /api/v1/epics` ADMIN/PROJECT_LEAD; epics gained `startDate`/`endDate` via `V4`) plus a
+> real roadmap view. `GET /api/v1/projects/{key}/roadmap` returns each epic with timeframe +
+> issue progress (`totalIssues`/`doneIssues`). UI: month-axis Gantt of scheduled epics (bars in
+> the epic color, done-fraction overlay), undated epics grouped under "Unscheduled", and a
+> New Epic modal. Verified live end-to-end. Deferred: epic edit/delete, drag-to-reschedule.
 
 ## 1. Purpose & scope
 
